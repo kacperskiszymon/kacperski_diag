@@ -1,23 +1,30 @@
 import platform
 import psutil
 import socket
-import datetime
+import getpass
 
 def get_system_info():
 
-    info = {}
+    info={}
 
-    info["Computer name"] = socket.gethostname()
+    info["Computer name"]=socket.gethostname()
 
-    info["OS"] = platform.system() + " " + platform.release()
+    info["Logged user"]=getpass.getuser()
 
-    info["Processor"] = platform.processor()
+    info["OS"]=platform.system()+" "+platform.release()
 
-    info["RAM"] = str(round(psutil.virtual_memory().total / (1024**3))) + " GB"
+    info["OS version"]=platform.version()
 
-    info["Disk space"] = str(round(psutil.disk_usage('/').free / (1024**3))) + " GB free"
+    info["Processor"]=platform.processor()
 
-    info["Boot time"] = datetime.datetime.fromtimestamp(
-        psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")
+    info["RAM"]=str(round(psutil.virtual_memory().total/(1024**3)))+" GB"
+
+    info["RAM usage"]=str(psutil.virtual_memory().percent)+" %"
+
+    info["Disk free"]=str(round(psutil.disk_usage('/').free/(1024**3)))+" GB"
+
+    info["CPU usage"]=str(psutil.cpu_percent(interval=1))+" %"
+
+    info["Processes"]=str(len(psutil.pids()))
 
     return info

@@ -1,18 +1,22 @@
 from core.system_scan import get_system_info
-from core.network_check import check_internet
-from core.common_fixes import get_suggestions
+from core.network_check import check_network
+from core.ticket_notes import generate_ticket
 from core.report_generator import generate_report
+from core.common_fixes import get_suggestions
+from gui.interface import *
 
-print("Kacperski IT Diagnostic Tool")
+print("Kacperski Diagnostic Tool")
 
-system = get_system_info()
+incident=input("Describe user problem: ")
 
-network = check_internet()
+system=get_system_info()
 
-tips = get_suggestions(network)
+network=check_network()
 
-generate_report(system,network,tips)
+suggestions=get_suggestions(system,network)
 
-print("Scan finished")
+ticket=generate_ticket(system,network,incident)
 
-print("Report generated in reports folder")
+generate_report(system,network,ticket,incident,suggestions)
+
+print("Report ready")
